@@ -1,3 +1,3 @@
-O(n)        // Best case: The list is already sorted
-O(n^2)      // Average case: The list is partially shuffled
-O(n^2)      // Worst case: The list is sorted in descending order
+O(n^2)
+O(n^2)
+O(n^2)
