@@ -1,34 +1,44 @@
 #include "sort.h"
 
 /**
- * selection_sort - Sorts an array of integers in ascending order
+ * insertion_sort_list - Sorts a doubly linked list of integers in ascending order
  *
- * @array: The array to be sorted
- * @size: Number of elements in @array
+ * @list: Pointer to the head of the doubly linked list
  */
-void selection_sort(int *array, size_t size)
+void insertion_sort_list(listint_t **list)
 {
-    size_t i, j, min_idx;
-    int temp;
+    listint_t *current, *temp;
 
-    for (i = 0; i < size - 1; i++)
+    if (list == NULL || *list == NULL || (*list)->next == NULL)
+        return;
+
+    current = (*list)->next;
+
+    while (current != NULL)
     {
-        min_idx = i;
-        for (j = i + 1; j < size; j++)
+        temp = current->next;
+
+        while (current->prev != NULL && current->n < current->prev->n)
         {
-            if (array[j] < array[min_idx])
-                min_idx = j;
+            /* Swap nodes if they are in the wrong order */
+            current->prev->next = current->next;
+
+            if (current->next != NULL)
+                current->next->prev = current->prev;
+
+            current->next = current->prev;
+            current->prev = current->next->prev;
+            current->next->prev = current;
+
+            if (current->prev == NULL)
+                *list = current;
+            else
+                current->prev->next = current;
+
+            /* Print the list after each swap */
+            print_list(*list);
         }
 
-        if (min_idx != i)
-        {
-            /* Swap elements if they are in the wrong order */
-            temp = array[i];
-            array[i] = array[min_idx];
-            array[min_idx] = temp;
-
-            /* Print the array after each swap */
-            print_array(array, size);
-        }
+        current = temp;
     }
 }
